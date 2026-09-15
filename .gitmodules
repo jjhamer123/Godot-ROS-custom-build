@@ -1,0 +1,3 @@
+[submodule "src/Godot_MOVER6_simulation_game"]
+	path = src/Godot_MOVER6_simulation_game
+	url = https://github.com/jjhamer123/MOVER6-Simulation-in-Godot-from-URDF.git
