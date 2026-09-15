@@ -1,0 +1,8 @@
+# Godot-specific ignores
+.godot/
+*.translation
+
+# C++ / Compiled object files
+*.o
+*.pyc
+__pycache__/

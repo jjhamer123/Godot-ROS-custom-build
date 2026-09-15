@@ -28,6 +28,8 @@
 #include "godot_ros/demos/cmd_listener.hpp"
 #include "godot_ros/demos/view_port.hpp"
 //#include "godot_ros/demos/raycast_publisher.hpp"
+#include "godot_ros/demos/joint_state_publisher.hpp"
+#include "godot_ros/demos/joint_jog_controller.hpp"
 
 void initialize_godot_ros_module(ModuleInitializationLevel p_level) {
     if (p_level != MODULE_INITIALIZATION_LEVEL_SCENE) {
@@ -35,6 +37,8 @@ void initialize_godot_ros_module(ModuleInitializationLevel p_level) {
     }
     ClassDB::register_class<ViewPort>();
     ClassDB::register_class<CmdListener>();
+    ClassDB::register_class<JointStatePublisher>();
+    ClassDB::register_class<JointJogController>();
 }
 
 void uninitialize_godot_ros_module(ModuleInitializationLevel p_level) {

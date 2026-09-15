@@ -7,8 +7,8 @@ from pathlib import Path
 
 Import('env')
 
-ros_distro = "humble"
-ros_dir = "/home/jens/ros2_humble/install"
+ros_distro = "jazzy"
+ros_dir = "/opt/ros/jazzy"
 
 cpp_version = "-std=c++17"
 
@@ -26,6 +26,12 @@ def getIncludeDirs(base_path: str):
             split = root.split("/")
             p = root + "/include/" + split[-1]
             dirs.append(p)
+    merged_include = os.path.join(base_path, "include")
+    if os.path.isdir(merged_include):
+        for pkg in os.listdir(merged_include):
+            pkg_path = os.path.join(merged_include, pkg)
+            if os.path.isdir(pkg_path):
+                dirs.append(pkg_path)
     return dirs
 
 

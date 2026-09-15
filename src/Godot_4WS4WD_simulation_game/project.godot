@@ -14,13 +14,17 @@ config/name="4WS4WD"
 run/main_scene="res://warehouse.tscn"
 config/features=PackedStringArray("4.4", "Forward Plus")
 boot_splash/bg_color=Color(0, 0, 0, 1)
-boot_splash/image="res://godot4.png"
 boot_splash/fullsize=false
+boot_splash/image="res://godot4.png"
 config/icon="res://icon.svg"
 
 [display]
 
 window/size/mode=2
+
+[filesystem]
+
+import/blender/enabled=false
 
 [input]
 
