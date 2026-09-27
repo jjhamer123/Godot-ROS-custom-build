@@ -103,7 +103,7 @@ A standard binary install of ROS2 Jazzy (`/opt/ros/jazzy`) is enough for this bu
 
 1. Clone repository to a folder of your choice (more info [here](https://docs.godotengine.org/en/stable/contributing/development/compiling/getting_source.html)):
    ```bash
-   git clone https://github.com/godotengine/godot.git
+   git clone -b 4.4-stable --depth 1 https://github.com/godotengine/godot.git
 
 ### Clone THIS repository (with the Mover6 submodule)
 
