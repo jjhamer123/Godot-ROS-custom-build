@@ -4,8 +4,6 @@ A custom build of the Godot 4 / ROS2 integration, forked and extended by Jack Ha
 
 This is a general-purpose **simulation and real-time digital shadow platform for robot arms**, not an arm-specific build: the joint-level ROS2 interface and the `RosArmBridge` bridge script work off joint names/limits supplied by a generic `RobotJointController`, so any URDF-imported arm rig can be swapped in. The bundled Mover6 submodule is the current reference implementation and example arm, not the only one this build supports.
 
-The original 4WS4WD swerve-drive vehicle demo has been removed from this repository - the intent going forward is for the Godot side to run as a real-time simulation and/or digital shadow of a robot arm, not a general-purpose vehicle sim.
-
 This project uses open-source game engine Godot 4 with ROS2 (Robot Operating System). Godot's modular source code fits with the ROS2 pipeline, providing a platform for developing and testing robotic - and for mirroring a physical robot's real-time state inside a game engine.
 
 ## Repository structure
