@@ -4,14 +4,14 @@ A custom build of the Godot 4 / ROS2 integration, forked and extended by Jack Ha
 
 This is a general-purpose **simulation and real-time digital shadow platform for robot arms**, not an arm-specific build: the joint-level ROS2 interface and the `RosArmBridge` bridge script work off joint names/limits supplied by a generic `RobotJointController`, so any URDF-imported arm rig can be swapped in. The bundled Mover6 submodule is the current reference implementation and example arm, not the only one this build supports.
 
-The original 4WS4WD swerve-drive vehicle demo has been removed from this repository — the intent going forward is for the Godot side to run as a real-time simulation and/or digital shadow of a robot arm, not a general-purpose vehicle sim.
+The original 4WS4WD swerve-drive vehicle demo has been removed from this repository - the intent going forward is for the Godot side to run as a real-time simulation and/or digital shadow of a robot arm, not a general-purpose vehicle sim.
 
-This project uses open-source game engine Godot 4 with ROS2 (Robot Operating System). Godot's modular source code fits with the ROS2 pipeline, providing a platform for developing and testing robotic — and for mirroring a physical robot's real-time state inside a game engine.
+This project uses open-source game engine Godot 4 with ROS2 (Robot Operating System). Godot's modular source code fits with the ROS2 pipeline, providing a platform for developing and testing robotic - and for mirroring a physical robot's real-time state inside a game engine.
 
 ## Repository structure
 
 - `src/godot_custom_modules/godot_ros/` the native C++ Godot module that talks to ROS2 (built into the Godot editor/engine itself). This is the part that provides `JointStatePublisher` and `JointJogController` to GDScript.
-- `src/Godot_MOVER6_simulation_game/` **git submodule** pointing at [MOVER6-Simulation-in-Godot-from-URDF](https://github.com/jjhamer123/MOVER6-Simulation-in-Godot-from-URDF). This is the actual Godot project you open: a URDF-imported Mover6 arm rig (via the `godot_urdf` addon), driven over ROS2 by the classes from the module above. It's the current example arm — since `RosArmBridge` and the joint-level ROS2 classes take joint names/limits from a generic `RobotJointController` rather than anything Mover6-specific, a different URDF-imported arm submodule could be swapped in here just as easily.
+- `src/Godot_MOVER6_simulation_game/` **git submodule** pointing at [MOVER6-Simulation-in-Godot-from-URDF](https://github.com/jjhamer123/MOVER6-Simulation-in-Godot-from-URDF). This is the actual Godot project you open: a URDF-imported Mover6 arm rig (via the `godot_urdf` addon), driven over ROS2 by the classes from the module above. It's the current example arm - since `RosArmBridge` and the joint-level ROS2 classes take joint names/limits from a generic `RobotJointController` rather than anything Mover6-specific, a different URDF-imported arm submodule could be swapped in here just as easily.
 
 ## Credits / lineage
 
@@ -25,7 +25,7 @@ Compared to `nordstream3/Godot-4-ROS2-integration`:
 
 - **Targets ROS2 Jazzy** instead of Humble. `SCsub` now defaults to `ros_distro = "jazzy"` and `ros_dir = "/opt/ros/jazzy"`.
 - **Supports merged ROS2 installs.** `getIncludeDirs()` in `SCsub` now also walks an `include/<package>` layout (as produced by a merged/underlay install), in addition to the original per-package `<pkg>/include/<pkg>` layout, so the module can find headers regardless of how the ROS2 workspace was built.
-- **Adds joint-level ROS2 interfaces** — `JointStatePublisher` and `JointJogController` (see below) — registered alongside the existing `ViewPort` and `CmdListener` classes in `register_types.cpp`. These are arm-agnostic: they move plain joint name/position/velocity arrays, not anything specific to one robot.
+- **Adds joint-level ROS2 interfaces** - `JointStatePublisher` and `JointJogController` (see below) - registered alongside the existing `ViewPort` and `CmdListener` classes in `register_types.cpp`. These are arm-agnostic: they move plain joint name/position/velocity arrays, not anything specific to one robot.
 - **Removes the 4WS4WD vehicle demo** (`src/Godot_4WS4WD_simulation_game/`), including its Blender-based warehouse scene and swerve-drive scripts, since the focus is now robot arms rather than mobile/wheeled robots.
 - **Adds an example arm sim as a submodule** at `src/Godot_MOVER6_simulation_game/`, pointing at [MOVER6-Simulation-in-Godot-from-URDF](https://github.com/jjhamer123/MOVER6-Simulation-in-Godot-from-URDF). This is a URDF-imported arm rig (using the `godot_urdf` addon) rather than a hand-built Blender scene. Any other URDF-imported arm exposing the same `RobotJointController` interface could be substituted here.
 
@@ -40,7 +40,7 @@ Godot 4.x comes with a built-in physics engine, which not meet the precision and
 
 - **Godot Module for ROS2**: integration Godot 4 with ROS2 for robotics simulations.
 - **Jolt Physics Engine**: Uses the Jolt Physics Engine better simulation accuracy and stability.
-- **Robot arm simulation & digital shadow, for any URDF-imported arm**: `RosArmBridge` (`ros_2_arm.gd`) drives an arm's joints purely through a generic `RobotJointController` interface (joint names, angles, limits), any robot can be used. Supports both a **Simulation** mode (incoming `/JointJog` commands move the arm's physics) and a **Shadow** mode (the arm just reports its current state, ignores incoming commands), a max-velocity setting to tune and a sign changehttps://github.com/jjhamer123/Godot-ROS-custom-build. The bundled `Godot_MOVER6_simulation_game` submodule is the current example arm this is exercised against — see that project's own README for the URDF import and rig setup.
+- **Robot arm simulation & digital shadow, for any URDF-imported arm**: `RosArmBridge` (`ros_2_arm.gd`) drives an arm's joints purely through a generic `RobotJointController` interface (joint names, angles, limits), any robot can be used. Supports both a **Simulation** mode (incoming `/JointJog` commands move the arm's physics) and a **Shadow** mode (the arm just reports its current state, ignores incoming commands), a max-velocity setting to tune and a sign changehttps://github.com/jjhamer123/Godot-ROS-custom-build. The bundled `Godot_MOVER6_simulation_game` submodule is the current example arm this is exercised against - see that project's own README for the URDF import and rig setup.
 - **Joint State Publisher**: A `JointStatePublisher` GDScript-exposed class that publishes `sensor_msgs/msg/JointState` on `/joint_states`, so any joint values driven inside Godot can be observed by the rest of the ROS2 stack.
 - **Joint Jog Controller**: A `JointJogController` GDScript-exposed class that publishes and subscribes to `control_msgs/msg/JointJog` on `/JointJog`, letting Godot both command external joints and react to jog commands coming from ROS2.
 
@@ -94,12 +94,12 @@ func _physics_process(delta):
 ### Prerequisites
 
 - Godot 4.4
-- ROS2 Jazzy Jalisco (installed to `/opt/ros/jazzy`, the default this build expects — see below for using a different distro/path)
+- ROS2 Jazzy Jalisco (installed to `/opt/ros/jazzy`, the default this build expects - see below for using a different distro/path)
 - Jolt Physics Engine (for Godot)
-- `control_msgs` and `sensor_msgs` (for the `JointJogController` / `JointStatePublisher` classes — these ship with a standard ROS2 install)
+- `control_msgs` and `sensor_msgs` (for the `JointJogController` / `JointStatePublisher` classes - these ship with a standard ROS2 install)
 
 ### Installing ROS2 Jazzy
-A standard binary install of ROS2 Jazzy (`/opt/ros/jazzy`) is enough for this build — building ROS2 from source is not required. Follow the official instructions [here](https://docs.ros.org/en/jazzy/Installation.html). If you build from source, or install to a non-default location, update `ros_distro` and `ros_dir` in `SCsub` accordingly (see step 2 below).
+A standard binary install of ROS2 Jazzy (`/opt/ros/jazzy`) is enough for this build - building ROS2 from source is not required. Follow the official instructions [here](https://docs.ros.org/en/jazzy/Installation.html). If you build from source, or install to a non-default location, update `ros_distro` and `ros_dir` in `SCsub` accordingly (see step 2 below).
 
 ### Download Godot 4.4 source code
 
@@ -146,10 +146,10 @@ A standard binary install of ROS2 Jazzy (`/opt/ros/jazzy`) is enough for this bu
 2. Run Godot in verbose/debug_info mode:
    ```bash
    ./godot.linuxbsd.editor.x86_64 -v -d
-3. Open the `Godot_MOVER6_simulation_game` submodule folder as the project and hit play to run `Robot.tscn`. From there, `ros_2_arm.gd` (`RosArmBridge`) spins up a `JointJogController` and `JointStatePublisher` and starts publishing/consuming ROS2 joint data — toggle its `mode` export between **Simulation** and **Shadow** depending on whether you want incoming `/JointJog` commands to actually move the arm, or just want it to report its current physical state. Swap in a different URDF-imported arm submodule with the same `RobotJointController` interface to point this at another robot.
+3. Open the `Godot_MOVER6_simulation_game` submodule folder as the project and hit play to run `Robot.tscn`. From there, `ros_2_arm.gd` (`RosArmBridge`) spins up a `JointJogController` and `JointStatePublisher` and starts publishing/consuming ROS2 joint data - toggle its `mode` export between **Simulation** and **Shadow** depending on whether you want incoming `/JointJog` commands to actually move the arm, or just want it to report its current physical state. Swap in a different URDF-imported arm submodule with the same `RobotJointController` interface to point this at another robot.
 
 ### Using the joint-level ROS2 interface directly
-`JointStatePublisher` and `JointJogController` don't need any extra setup beyond the module being built in — attach a script to any node in your scene, instantiate the class, and call `spin_some()` each physics frame as shown in [New ROS2 classes](#new-ros2-classes) above.
+`JointStatePublisher` and `JointJogController` don't need any extra setup beyond the module being built in - attach a script to any node in your scene, instantiate the class, and call `spin_some()` each physics frame as shown in [New ROS2 classes](#new-ros2-classes) above.
 
 ## License
 This project is licensed under the GNU General Public License v3.0.
