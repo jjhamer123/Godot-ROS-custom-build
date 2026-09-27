@@ -38,13 +38,13 @@ Godot 4.x comes with a built-in physics engine, which not meet the precision and
 
 - **Godot Module for ROS2**: integration Godot 4 with ROS2 for robotics simulations.
 - **Jolt Physics Engine**: Uses the Jolt Physics Engine better simulation accuracy and stability.
-- **Robot arm simulation & digital shadow, for any URDF-imported arm**: `RosArmBridge` (`ros_2_arm.gd`) drives an arm's joints purely through a generic `RobotJointController` interface (joint names, angles, limits), any robot can be used. Supports both a **Simulation** mode (incoming `/JointJog` commands move the arm's physics) and a **Shadow** mode (the arm just reports its current state, ignores incoming commands), a max-velocity setting to tune and a sign change setting. https://github.com/jjhamer123/Godot-ROS-custom-build. The bundled `Godot_MOVER6_simulation_game` submodule is the current example arm this is exercised against - see that project's own README for the URDF import and rig setup.
+- **Robot arm simulation & digital shadow, for any URDF-imported arm**: `RosArmBridge` (`ros_2_arm.gd`) drives an arm's joints purely through a generic `RobotJointController` interface (joint names, angles, limits), any robot can be used. Supports both a **Simulation** mode (incoming `/JointJog` commands move the arm's physics) and a **Shadow** mode (the arm just reports its current state, ignores incoming commands), a max-velocity setting to tune and a sign change setting. The bundled `Godot_MOVER6_simulation_game` submodule is the current example arm this is exercised against - see that project's own README for the URDF import and rig setup.
 - **Joint State Publisher**: A `JointStatePublisher` GDScript-exposed class that publishes `sensor_msgs/msg/JointState` on `/joint_states`, so any joint values driven inside Godot can be observed by the rest of the ROS2 stack.
 - **Joint Jog Controller**: A `JointJogController` GDScript-exposed class that publishes and subscribes to `control_msgs/msg/JointJog` on `/JointJog`, letting Godot both command external joints and react to jog commands coming from ROS2.
 
 ## New ROS2 classes
 
-Both classes live in `src/godot_custom_modules/godot_ros/{include/godot_ros/demos,src/demos}` and are registered as native Godot classes. They only deal in plain joint name/position/velocity arrays, so they work the same regardless of which arm (or robot) is on the other end. The Mover6 submodule's `ros_2_arm.gd` (`RosArmBridge`) is the reference a template for wiring up a different arm.
+Both classes live in `src/godot_custom_modules/godot_ros/{include/godot_ros/demos,src/demos}` and are registered as native Godot classes. They only deal in plain joint name/position/velocity arrays, so they work the same regardless of which arm (or robot) is on the other end. The Mover6 submodule's `ros_2_arm.gd` (`RosArmBridge`) is the reference template for wiring up a different arm.
 
 ### `JointStatePublisher`
 
@@ -104,17 +104,20 @@ A standard binary install of ROS2 Jazzy (`/opt/ros/jazzy`) is enough for this bu
 1. Clone repository to a folder of your choice (more info [here](https://docs.godotengine.org/en/stable/contributing/development/compiling/getting_source.html)):
    ```bash
    git clone -b 4.4-stable --depth 1 https://github.com/godotengine/godot.git
+   ```
 
 ### Clone THIS repository (with the Mover6 submodule)
 
 1. Clone repository, pulling in the `Godot_MOVER6_simulation_game` submodule at the same time:
    ```bash
    git clone --recurse-submodules https://github.com/jjhamer123/Godot-ROS-custom-build.git
+   ```
 
 2. Edit the "SCsub" file in /path/to/Godot-ROS-custom-build/src/godot_custom_modules/godot_ros to match your ROS2 distribution and install directory, if different from the defaults. This build now defaults to:
    ```bash
    ros_distro = "jazzy"
    ros_dir = "/opt/ros/jazzy"
+   ```
 
    `getIncludeDirs()` in the same file supports both a per-package `<pkg>/include/<pkg>` layout and a merged `include/<package>` layout, so it should find headers either way once `ros_dir` points at the right install.
 
@@ -122,6 +125,7 @@ A standard binary install of ROS2 Jazzy (`/opt/ros/jazzy`) is enough for this bu
    ```bash
    cd /path/to/godot-source-code
    scons -j8 verbose=yes disable_exceptions=false SHOWBUILD=1 custom_modules=/path/to/Godot-ROS-custom-build/src/godot_custom_modules platform=linuxbsd
+   ```
 
 4. Build the Jolt Physics Engine add-on for Godot 4 ([details are here](https://github.com/godot-jolt/godot-jolt)):
    ```bash
@@ -132,6 +136,7 @@ A standard binary install of ROS2 Jazzy (`/opt/ros/jazzy`) is enough for this bu
    cmake --build --preset linux-gcc-x64-editor-distribution
    cmake --install build/linux-gcc-x64 --config Distribution --prefix /path/to/Godot-ROS-custom-build/src/Godot_MOVER6_simulation_game
    cmake --install build/linux-gcc-x64 --config EditorDistribution --prefix /path/to/Godot-ROS-custom-build/src/Godot_MOVER6_simulation_game
+   ```
 
    Jolt Physics is found in the "addons/godot-jolt" directory. Edit "godot-jolt.gdextension" and set "**compatibility_maximum = "4.4"**".
 
@@ -141,9 +146,11 @@ A standard binary install of ROS2 Jazzy (`/opt/ros/jazzy`) is enough for this bu
 1. Source ROS2:
    ```bash
    source /opt/ros/jazzy/setup.bash
+   ```
 2. Run Godot in verbose/debug_info mode:
    ```bash
    ./godot.linuxbsd.editor.x86_64 -v -d
+   ```
 3. Open the `Godot_MOVER6_simulation_game` submodule folder as the project and hit play to run `Robot.tscn`. From there, `ros_2_arm.gd` (`RosArmBridge`) spins up a `JointJogController` and `JointStatePublisher` and starts publishing/consuming ROS2 joint data - toggle its `mode` export between **Simulation** and **Shadow** depending on whether you want incoming `/JointJog` commands to actually move the arm, or just want it to report its current physical state. Swap in a different URDF-imported arm submodule with the same `RobotJointController` interface to point this at another robot.
 
 ### Using the joint-level ROS2 interface directly
