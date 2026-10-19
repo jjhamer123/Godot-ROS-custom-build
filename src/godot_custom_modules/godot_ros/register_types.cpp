@@ -30,6 +30,7 @@
 //#include "godot_ros/demos/raycast_publisher.hpp"
 #include "godot_ros/demos/joint_state_publisher.hpp"
 #include "godot_ros/demos/joint_jog_controller.hpp"
+#include "godot_ros/demos/joint_state_subscriber.hpp"
 
 void initialize_godot_ros_module(ModuleInitializationLevel p_level) {
     if (p_level != MODULE_INITIALIZATION_LEVEL_SCENE) {
@@ -39,6 +40,7 @@ void initialize_godot_ros_module(ModuleInitializationLevel p_level) {
     ClassDB::register_class<CmdListener>();
     ClassDB::register_class<JointStatePublisher>();
     ClassDB::register_class<JointJogController>();
+    ClassDB::register_class<JointStateSubscriber>();
 }
 
 void uninitialize_godot_ros_module(ModuleInitializationLevel p_level) {
