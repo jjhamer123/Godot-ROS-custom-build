@@ -7,8 +7,8 @@ from pathlib import Path
 
 Import('env')
 
-ros_distro = "jazzy"
-ros_dir = "/opt/ros/jazzy"
+ros_distro = "foxy"
+ros_dir = "/opt/ros/foxy"
 
 cpp_version = "-std=c++17"
 
@@ -71,7 +71,7 @@ env.add_source_files(env.modules_sources, "src/demos/*.cpp")
 env.add_source_files(env.modules_sources, "*.cpp")
 
 # These paths are relative to /modules/ros if they are not absolute
-env.Append(CPPPATH=["include"] + ros_includes)
+env.Append(CPPPATH=["include", ros_dir + "/include"] + ros_includes)
 
 # LIBPATH and LIBS need to be set on the real "env" (not the clone)
 # to link the specified libraries to the Godot executable.
