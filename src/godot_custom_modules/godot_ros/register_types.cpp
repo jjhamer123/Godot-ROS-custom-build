@@ -18,34 +18,39 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-
 /* register_types.cpp */
 
 #include "register_types.h"
 
 #include "core/object/class_db.h"
-//#include "godot_ros/demos/talker.hpp"
+// #include "godot_ros/demos/talker.hpp"
 #include "godot_ros/demos/cmd_listener.hpp"
 #include "godot_ros/demos/view_port.hpp"
-//#include "godot_ros/demos/raycast_publisher.hpp"
+// #include "godot_ros/demos/raycast_publisher.hpp"
 #include "godot_ros/demos/joint_state_publisher.hpp"
 #include "godot_ros/demos/joint_jog_controller.hpp"
 #include "godot_ros/demos/joint_state_subscriber.hpp"
+#include "godot_ros/demos/bool_topic.hpp"
 
-void initialize_godot_ros_module(ModuleInitializationLevel p_level) {
-    if (p_level != MODULE_INITIALIZATION_LEVEL_SCENE) {
-            return;
-    }
-    ClassDB::register_class<ViewPort>();
-    ClassDB::register_class<CmdListener>();
-    ClassDB::register_class<JointStatePublisher>();
-    ClassDB::register_class<JointJogController>();
-    ClassDB::register_class<JointStateSubscriber>();
+void initialize_godot_ros_module(ModuleInitializationLevel p_level)
+{
+        if (p_level != MODULE_INITIALIZATION_LEVEL_SCENE)
+        {
+                return;
+        }
+        ClassDB::register_class<ViewPort>();
+        ClassDB::register_class<CmdListener>();
+        ClassDB::register_class<JointStatePublisher>();
+        ClassDB::register_class<JointJogController>();
+        ClassDB::register_class<JointStateSubscriber>();
+        ClassDB::register_class<BoolTopic>();
 }
 
-void uninitialize_godot_ros_module(ModuleInitializationLevel p_level) {
-    if (p_level != MODULE_INITIALIZATION_LEVEL_SCENE) {
-            return;
-    }
-   // Nothing to do here in this example.
+void uninitialize_godot_ros_module(ModuleInitializationLevel p_level)
+{
+        if (p_level != MODULE_INITIALIZATION_LEVEL_SCENE)
+        {
+                return;
+        }
+        // Nothing to do here in this example.
 }
